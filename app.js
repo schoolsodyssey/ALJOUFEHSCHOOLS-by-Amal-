@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: "مدرسة الأمير حسن الثانوية للبنين", selector: '#section-waypoint-7 .waypoint-card' },
         { name: "مدرسة جبل الجوفة الأساسية المختلطة", selector: '#section-waypoint-8 .waypoint-card' },
         { name: "مدرسة ابن خلدون الأساسية للبنين", selector: '#section-waypoint-9 .waypoint-card' },
-        { name: "مدرسة حسن البرقاوي للبنين", selector: '#section-waypoint-10 .waypoint-card' },
+        { name: "مدرسة الخنساء الاساسية للبنات", selector: '#section-waypoint-10 .waypoint-card' },
         { name: "مدرسة امنة بنت وهب الأساسية", selector: '#section-waypoint-11 .waypoint-card' },
         { name: "مدرسة جعفر الطيار الثانوية للبنين", selector: '#section-waypoint-12 .waypoint-card' },
         { name: "مدرسة الأميرة هيا الأساسية المختلطة", selector: '#section-waypoint-13 .waypoint-card' }
@@ -341,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else if (percent < 80) {
                         loaderStatus.innerText = 'Approaching Jabal Al-Joufeh Basic Mixed School...';
                     } else if (percent < 90) {
-                        loaderStatus.innerText = 'Stabilizing over Ebn Khaldoun, Hasan Al-Barqawi, and Aminah Bint Wahb...';
+                        loaderStatus.innerText = 'Stabilizing over Ebn Khaldoun, Al-Khansa, and Aminah Bint Wahb...';
                     } else if (percent < 98) {
                         loaderStatus.innerText = 'Final descent past Ja\'far Al-Tayyar and Princess Haya...';
                     } else {
