@@ -139,9 +139,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 cardObj.fadeOutStart = clipEnd + Math.floor(nextClip.count * fadeOutStartPercent);
                 cardObj.fadeOutEnd = clipEnd + Math.floor(nextClip.count * fadeOutEndPercent);
             } else {
-                // Last school (Princess Haya) stays visible longer, fading out as the gallery enters (from 75% to 95% of Clip 13)
-                cardObj.fadeOutStart = clipStart + Math.floor(clip.count * 0.75);
-                cardObj.fadeOutEnd = clipStart + Math.floor(clip.count * 0.95);
+                // Last school (Princess Haya) fades out before the gallery enters (from 35% to 48% of Clip 13)
+                cardObj.fadeOutStart = clipStart + Math.floor(clip.count * 0.35);
+                cardObj.fadeOutEnd = clipStart + Math.floor(clip.count * 0.48);
             }
 
             cardObj.start = cardObj.fadeInStart;
@@ -539,7 +539,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const speed = 6; // Pixels per frame step
             autopilotInterval = setInterval(() => {
                 const currentScroll = window.scrollY;
-                const maxScroll = document.documentElement.scrollHeight - (window.innerHeight / 0.8);
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
 
                 if (currentScroll >= maxScroll - 6) {
                     // Loop completed - land and switch off

@@ -31,6 +31,10 @@
     padding: 0;
 }
 
+html {
+    zoom: 0.8; /* Scales down layout to 80% natively simulating browser zoom */
+}
+
 html,
 body {
     width: 100%;
