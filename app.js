@@ -1,5 +1,6 @@
 /* ==========================================================================
    AL-JOUFEH SCHOOLS FPV DRONE EXPERIENCE - LOGIC ENGINE
+   - Force Vercel Rebuild: Restore original scrolling experience [2026-06-07T23:16:00]
    - Multi-stage high-speed asset preloader (2880 frames from 13 clips)
    - High-performance responsive Canvas renderer
    - Inertial Scroll smoothing (Ease-out LERP)
