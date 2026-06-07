@@ -260,13 +260,32 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.scale(dpr, dpr);
 
         // Redraw current frame immediately on resize
-        if (isImagesLoaded && images[Math.floor(frameIndex.current)]) {
-            drawFrame(Math.floor(frameIndex.current));
+        const roundedCurrent = Math.round(frameIndex.current);
+        drawFrame(roundedCurrent);
+    }
+
+    function findNearestLoadedImage(index) {
+        let backward = index;
+        let forward = index + 1;
+        while (backward >= 1 || forward <= TOTAL_FRAMES) {
+            if (backward >= 1) {
+                if (images[backward] && images[backward].loaded) return images[backward];
+                backward--;
+            }
+            if (forward <= TOTAL_FRAMES) {
+                if (images[forward] && images[forward].loaded) return images[forward];
+                forward++;
+            }
         }
+        return null;
     }
 
     function drawFrame(index) {
-        const img = images[index];
+        let img = images[index];
+        if (!img || !img.loaded) {
+            // Find the nearest loaded frame to keep display filled
+            img = findNearestLoadedImage(index);
+        }
         if (!img) return;
 
         const canvasWidth = window.innerWidth;
@@ -302,64 +321,187 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ----------------------------------------------------------------------
-    // 3. FRAME PRELOAD ENGINE
+    // 3. SMART PRELOAD & BACKGROUND STREAMING ENGINE
     // ----------------------------------------------------------------------
+    // Tiered preload boundaries and indices
+    const CRITICAL_STEP = 30;
+    const criticalIndices = [];
+    
+    // Add first 20 frames for seamless opening hero scroll
+    for (let i = 1; i <= 20; i++) {
+        criticalIndices.push(i);
+    }
+    // Add sparse keyframes for the remaining flight timeline
+    for (let i = 21; i <= TOTAL_FRAMES; i += CRITICAL_STEP) {
+        if (!criticalIndices.includes(i)) {
+            criticalIndices.push(i);
+        }
+    }
+    if (!criticalIndices.includes(TOTAL_FRAMES)) {
+        criticalIndices.push(TOTAL_FRAMES);
+    }
+
+    let backgroundQueue = [];
+    const MAX_CONCURRENT_DOWNLOADS = 6;
+    let activeDownloads = 0;
+
+    const isLocalFile = window.location.protocol === 'file:';
+    const activeControllers = new Map();
+
+    function loadImage(index) {
+        if (images[index]) {
+            return images[index].loadPromise;
+        }
+
+        const img = new Image();
+        img.loaded = false;
+
+        if (isLocalFile) {
+            img.loadPromise = new Promise((resolve) => {
+                img.onload = () => {
+                    img.loaded = true;
+                    const roundedCurrent = Math.round(frameIndex.current);
+                    if (Math.abs(index - roundedCurrent) < 30) {
+                        drawFrame(roundedCurrent);
+                    }
+                    resolve(img);
+                };
+                img.onerror = () => {
+                    img.loaded = false;
+                    resolve(null);
+                };
+                img.src = getFramePath(index);
+            });
+        } else {
+            const controller = new AbortController();
+            activeControllers.set(index, controller);
+
+            img.loadPromise = fetch(getFramePath(index), { signal: controller.signal })
+                .then(response => {
+                    if (!response.ok) throw new Error('Fetch failed');
+                    return response.blob();
+                })
+                .then(blob => {
+                    const objectURL = URL.createObjectURL(blob);
+                    return new Promise((resolve) => {
+                        img.onload = () => {
+                            img.loaded = true;
+                            URL.revokeObjectURL(img.src);
+                            activeControllers.delete(index);
+                            const roundedCurrent = Math.round(frameIndex.current);
+                            if (Math.abs(index - roundedCurrent) < 30) {
+                                drawFrame(roundedCurrent);
+                            }
+                            resolve(img);
+                        };
+                        img.src = objectURL;
+                    });
+                })
+                .catch(error => {
+                    activeControllers.delete(index);
+                    img.loaded = false;
+                    if (error.name === 'AbortError') {
+                        delete images[index];
+                    }
+                    return null;
+                });
+        }
+
+        images[index] = img;
+        return img.loadPromise;
+    }
+
+    function processQueue() {
+        if (activeDownloads >= MAX_CONCURRENT_DOWNLOADS || backgroundQueue.length === 0) {
+            return;
+        }
+
+        while (activeDownloads < MAX_CONCURRENT_DOWNLOADS && backgroundQueue.length > 0) {
+            const nextIndex = backgroundQueue.shift();
+            
+            // If already started loading or loaded, skip
+            if (images[nextIndex]) {
+                continue;
+            }
+
+            activeDownloads++;
+            loadImage(nextIndex).then(() => {
+                activeDownloads--;
+                processQueue();
+            });
+        }
+    }
+
+    function updateLoadingPriority(currentTarget) {
+        // Prioritize a window around currentTarget: 30 frames ahead (lookahead) and 10 frames behind
+        const priorityWindow = [];
+        const lookAhead = 30;
+        const lookBehind = 10;
+        
+        const startIdx = Math.max(1, Math.round(currentTarget) - lookBehind);
+        const endIdx = Math.min(TOTAL_FRAMES, Math.round(currentTarget) + lookAhead);
+
+        for (let idx = startIdx; idx <= endIdx; idx++) {
+            if (!images[idx]) {
+                priorityWindow.push(idx);
+            }
+        }
+
+        // Abort active background downloads outside the target window
+        for (const [idx, controller] of activeControllers.entries()) {
+            if ((idx < startIdx || idx > endIdx) && !criticalIndices.includes(idx)) {
+                controller.abort();
+                activeControllers.delete(idx);
+            }
+        }
+
+        if (priorityWindow.length > 0) {
+            // Remove priority window indices from the rest of the queue
+            backgroundQueue = backgroundQueue.filter(idx => !priorityWindow.includes(idx));
+            // Prepend priority window to the front
+            backgroundQueue.unshift(...priorityWindow);
+            processQueue();
+        }
+    }
+
+    function startBackgroundPreload() {
+        backgroundQueue = [];
+        for (let i = 1; i <= TOTAL_FRAMES; i++) {
+            if (!images[i]) {
+                backgroundQueue.push(i);
+            }
+        }
+        processQueue();
+    }
+
     async function preloadImages() {
         let loadedCount = 0;
-        const loadPromises = [];
+        const totalCritical = criticalIndices.length;
 
         loaderStatus.innerText = 'Connecting to flight systems...';
 
-        for (let i = 1; i <= TOTAL_FRAMES; i++) {
-            const img = new Image();
-            const frameSrc = getFramePath(i);
+        // Load critical frames
+        const loadPromises = criticalIndices.map((index) => {
+            return loadImage(index).then(() => {
+                loadedCount++;
+                const percent = Math.floor((loadedCount / totalCritical) * 100);
 
-            const promise = new Promise((resolve) => {
-                img.onload = () => {
-                    loadedCount++;
-                    const percent = Math.floor((loadedCount / TOTAL_FRAMES) * 100);
+                // Smooth loader indicators
+                loaderBar.style.width = `${percent}%`;
+                loaderPercent.innerText = `${percent}%`;
 
-                    // Smooth loader indicators
-                    loaderBar.style.width = `${percent}%`;
-                    loaderPercent.innerText = `${percent}%`;
-
-                    // Context-sensitive status messages
-                     if (percent < 10) {
-                        loaderStatus.innerText = 'Starting dive over Amman Kasabah district...';
-                    } else if (percent < 20) {
-                        loaderStatus.innerText = 'Sweeping Bader Secondary Girls ridge...';
-                    } else if (percent < 30) {
-                        loaderStatus.innerText = 'Approaching Prince Mohammad Basic Boys School...';
-                    } else if (percent < 40) {
-                        loaderStatus.innerText = 'Preloading Hafsa Um Al-Mo\'mineen Basic School...';
-                    } else if (percent < 50) {
-                        loaderStatus.innerText = 'Caching Khadija Bint Khuwaylid Basic Girls School...';
-                    } else if (percent < 60) {
-                        loaderStatus.innerText = 'Aligning Musa\'b Ben Omeer Basic Boys descent path...';
-                    } else if (percent < 70) {
-                        loaderStatus.innerText = 'Tracking Prince Hasan Secondary Boys campus...';
-                    } else if (percent < 80) {
-                        loaderStatus.innerText = 'Approaching Jabal Al-Joufeh Basic Mixed School...';
-                    } else if (percent < 90) {
-                        loaderStatus.innerText = 'Stabilizing over Ebn Khaldoun, Al-Khansa, and Aminah Bint Wahb...';
-                    } else if (percent < 98) {
-                        loaderStatus.innerText = 'Final descent past Ja\'far Al-Tayyar and Princess Haya...';
-                    } else {
-                        loaderStatus.innerText = 'Preloading complete. Get ready to dive!';
-                    }
-
-                    resolve();
-                };
-                img.onerror = () => {
-                    console.error(`Error preloading frame: ${frameSrc}`);
-                    // Resolve anyway to keep progress moving
-                    resolve();
-                };
-                img.src = frameSrc;
-                images[i] = img;
+                // Context-sensitive status messages
+                if (percent < 20) {
+                    loaderStatus.innerText = 'Initializing flight systems...';
+                } else if (percent < 50) {
+                    loaderStatus.innerText = 'Establishing telemetry link...';
+                } else if (percent < 80) {
+                    loaderStatus.innerText = 'Buffering scenic keyframes...';
+                } else {
+                    loaderStatus.innerText = 'Ready for takeoff!';
+                }
             });
-            loadPromises.push(promise);
-        }
+        });
 
         await Promise.all(loadPromises);
         isImagesLoaded = true;
@@ -373,6 +515,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 resizeCanvas();
                 updateSectionPositions();
                 animate();
+                
+                // Stream in remaining frames in the background
+                startBackgroundPreload();
             }, 800);
         }, 1000);
     }
@@ -487,6 +632,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------------------------------------
     // 6. NATIVE SCROLL SYNC
     // ----------------------------------------------------------------------
+    let lastTargetFrame = 1;
     window.addEventListener('scroll', () => {
         if (!isImagesLoaded) return;
 
@@ -498,6 +644,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const unzoomedScroll = currentScroll / zoomFactor;
 
         frameIndex.target = getFrameIndexForScroll(unzoomedScroll);
+        
+        const roundedTarget = Math.round(frameIndex.target);
+        if (roundedTarget !== lastTargetFrame) {
+            lastTargetFrame = roundedTarget;
+            updateLoadingPriority(roundedTarget);
+        }
     });
 
     // ----------------------------------------------------------------------
@@ -513,6 +665,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const value = parseInt(e.target.value);
         frameIndex.target = value;
+        updateLoadingPriority(value);
 
         // Force scroll container to scroll to the corresponding ratio
         const targetScroll = getScrollForFrameIndex(value);
