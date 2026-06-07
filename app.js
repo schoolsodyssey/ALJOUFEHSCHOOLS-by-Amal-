@@ -374,6 +374,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
                 img.onerror = () => {
                     console.error(`Error preloading frame: ${frameSrc}`);
+                    loadedCount++;
+                    const percent = Math.floor((loadedCount / TOTAL_FRAMES) * 100);
+                    loaderBar.style.width = `${percent}%`;
+                    loaderPercent.innerText = `${percent}%`;
                     // Resolve anyway to keep progress moving
                     resolve();
                 };
