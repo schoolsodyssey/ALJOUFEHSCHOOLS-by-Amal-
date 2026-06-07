@@ -31,12 +31,7 @@
     padding: 0;
 }
 
-html {
-    width: 100%;
-    min-height: 100vh;
-    background-color: var(--bg-dark);
-}
-
+html,
 body {
     width: 100%;
     min-height: 100vh;
@@ -45,7 +40,6 @@ body {
     font-family: var(--font-body);
     overflow-x: hidden;
     scroll-behavior: auto;
-    zoom: 0.8; /* Scales down layout to 80% for compact premium feel */
 }
 
 /* Premium Scrollbar */
@@ -210,7 +204,6 @@ body {
     overflow: hidden;
     pointer-events: none;
     /* Let all mouse/scroll events pass through to the scrollable body */
-    zoom: 1.25; /* Offset the body's 0.8 zoom (1 / 0.8 = 1.25) to keep the background FPV canvas fullscreen */
 }
 
 #scroll-canvas {
@@ -390,7 +383,8 @@ body {
 .scroll-section {
     position: relative;
     width: 100%;
-    min-height: 130vh; /* Taller sections to slow down scroll speed and extend card visibility */
+    min-height: 130vh;
+    /* Taller sections to slow down scroll speed and extend card visibility */
     display: flex;
     align-items: center;
     padding: 10vh 8%;
@@ -501,7 +495,8 @@ body {
 }
 
 #section-waypoint-13 {
-    min-height: 200vh; /* Extra tall last section to delay gallery entry */
+    min-height: 200vh;
+    /* Extra tall last section to delay gallery entry */
 }
 
 .waypoint-card {
@@ -593,7 +588,7 @@ body {
     justify-content: center;
     align-items: flex-start;
     padding-top: 8vh;
-    padding-bottom: 22vh;
+    padding-bottom: 80vh; /* Increased scroll spacing to ensure the gallery and last schools are fully reachable with body zoom */
     /* Space so controller deck doesn't overlap contents */
 }
 
@@ -1133,9 +1128,17 @@ input[type=range]:active::-webkit-slider-thumb {
 }
 
 @keyframes qrScan {
-    0% { transform: translateY(-20px); }
-    50% { transform: translateY(140px); }
-    100% { transform: translateY(-20px); }
+    0% {
+        transform: translateY(-20px);
+    }
+
+    50% {
+        transform: translateY(140px);
+    }
+
+    100% {
+        transform: translateY(-20px);
+    }
 }
 
 .waypoint-qr-code {
