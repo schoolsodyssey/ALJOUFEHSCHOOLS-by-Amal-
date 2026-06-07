@@ -356,6 +356,7 @@ body.loading-active {
 @media (max-width: 900px) {
     .loader-overlay {
         padding: 1rem 0;
+        overflow-y: auto;
     }
     .loader-layout {
         flex-direction: column;
