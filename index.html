@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al-Joufeh Schools: An Interactive FPV Scroll Experience</title>
+    <meta name="description" content="Embark on a breathtaking FPV drone dive over Jabal Al-Joufeh in Amman, Jordan. Control the sunset flight through a smooth interactive scroll animation and explore 13 historic schools.">
+    <meta name="keywords" content="Al-Joufeh, Amman, Jordan, Schools, FPV Drone, Scroll Animation, Interactive Web Design, Al-Joufeh Schools">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Al-Joufeh Schools: FPV Scroll Experience">
+    <meta property="og:description" content="Experience Jabal Al-Joufeh like never before in a sunset drone sweep driven entirely by your scroll.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Premium Cinematic Loader -->
+    <div id="loader" class="loader-overlay">
+        <div class="loader-content">
+            <!-- Drone SVG Icon -->
+            <div class="drone-icon-container">
+                <svg class="drone-svg" viewBox="0 0 100 100" width="80" height="80">
+                    <circle cx="50" cy="50" r="10" fill="none" stroke="var(--accent)" stroke-width="2" />
+                    <!-- Propellers -->
+                    <g class="propeller prop-top-left">
+                        <line x1="20" y1="20" x2="35" y2="35" stroke="var(--accent)" stroke-width="2"/>
+                        <ellipse cx="20" cy="20" rx="10" ry="2" fill="none" stroke="var(--accent-glow)" stroke-width="1"/>
+                    </g>
+                    <g class="propeller prop-top-right">
+                        <line x1="80" y1="20" x2="65" y2="35" stroke="var(--accent)" stroke-width="2"/>
+                        <ellipse cx="80" cy="20" rx="10" ry="2" fill="none" stroke="var(--accent-glow)" stroke-width="1"/>
+                    </g>
+                    <g class="propeller prop-bottom-left">
+                        <line x1="20" y1="80" x2="35" y2="65" stroke="var(--accent)" stroke-width="2"/>
+                        <ellipse cx="20" cy="80" rx="10" ry="2" fill="none" stroke="var(--accent-glow)" stroke-width="1"/>
+                    </g>
+                    <g class="propeller prop-bottom-right">
+                        <line x1="80" y1="80" x2="65" y2="65" stroke="var(--accent)" stroke-width="2"/>
+                        <ellipse cx="80" cy="80" rx="10" ry="2" fill="none" stroke="var(--accent-glow)" stroke-width="1"/>
+                    </g>
+                    <!-- Body arms -->
+                    <line x1="30" y1="30" x2="70" y2="70" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="70" y1="30" x2="30" y2="70" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                    <!-- Core camera -->
+                    <circle cx="50" cy="50" r="6" fill="var(--accent)" />
+                </svg>
+            </div>
+            <h1 class="loader-title">AL-JOUFEH SCHOOLS</h1>
+            <div class="loader-bar-bg">
+                <div id="loader-bar-fill" class="loader-bar-fill"></div>
+            </div>
+            <div id="loader-percentage" class="loader-percentage">0%</div>
+            <div id="loader-status" class="loader-status">Initializing asset cache...</div>
+        </div>
+    </div>
+
+    <!-- Background Canvas and container -->
+    <div id="canvas-container" class="canvas-container">
+        <canvas id="scroll-canvas"></canvas>
+        <div class="vignette-overlay"></div>
+        <div class="scanlines"></div>
+    </div>
+
+    <!-- Systems HUD Top Header -->
+    <header class="systems-hud-header">
+        <div class="hud-left">
+            <span class="hud-logo">AL-JOUFEH <span class="accent">//</span> DIVE</span>
+            <div class="hud-pill-status">
+                <span class="status-dot pulsing"></span>
+                <span class="status-text" id="hud-school-active">FLIGHT LOG ACTIVE</span>
+            </div>
+        </div>
+        <div class="hud-right">
+            <div class="hud-metric">
+                <span class="metric-label">ALTITUDE</span>
+                <span id="hud-altitude" class="metric-val">850m</span>
+            </div>
+            <div class="hud-metric">
+                <span class="metric-label">CAMERA SPEED</span>
+                <span id="hud-speed" class="metric-val">0 km/h</span>
+            </div>
+            <div class="hud-metric">
+                <span class="metric-label">BATTERY</span>
+                <span class="metric-val text-green">98%</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Scrolling Content Space -->
+    <main id="scroll-container" class="scroll-container">
+        
+        <!-- SECTION 1: HERO OVERLAY -->
+        <section class="scroll-section hero-section" id="section-hero">
+            <div class="hero-card glass-panel" id="hero-card-panel">
+                <span class="pre-title">AL-JOUFEH ODYSSEY</span>
+                <h1 class="main-title">SCHOOLS DIVE</h1>
+                <p class="hero-desc">
+                    Embark on an interactive FPV drone sweep down the historic slopes of Jabal Al-Joufeh in Amman. Control your sunset flight to dive through the 13 iconic schools shaping the heart of the community.
+                </p>
+                <div class="scroll-indicator">
+                    <span class="mouse-icon">
+                        <span class="scroll-wheel"></span>
+                    </span>
+                    <span class="scroll-text">SCROLL TO DIVE</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCHOOL 01: AL-HARAMAIN -> مدارس لواء قصبة عمان -->
+        <section class="scroll-section waypoint-section" id="section-waypoint-1">
+            <div class="waypoint-card glass-panel right-aligned">
+                <div class="waypoint-header">
+                    <span class="waypoint-num" style="font-size: 1.1rem;">INTRO</span>
+                    <h2 class="waypoint-title">
+                        <span class="title-en">Amman Kasabah Schools</span>
+                        <span class="title-ar">مدارس لواء قصبة عمان</span>
+                    </h2>
+                </div>
+                <p class="waypoint-desc" style="direction: rtl; text-align: right;">
+                    هذه الجولة تأخذنا في رحلة تفاعلية جوية (FPV) فوق منطقة جبل الجوفة في عمان لتسليط الضوء على المدارس التاريخية والأساسية التي تخدم المجتمع المحلي في لواء قصبة عمان.
+                </p>
+                <div class="waypoint-metric">
+                    <span>SECTOR: GOVERNMENT / قصبة عمان</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCHOOL 02: PRINCE HASAN -> مدرسة بدر الثانوية للبنات -->
+        <section class="scroll-section waypoint-section" id="section-waypoint-2">
+            <div class="waypoint-card glass-panel left-aligned">
+                <div class="waypoint-header">
+                    <span class="waypoint-num">01</span>
+                    <h2 class="waypoint-title">
+                        <span class="title-en">Bader Secondary Girls</span>
+                        <span class="title-ar">مدرسة بدر الثانوية للبنات</span>
+                    </h2>
+                </div>
+                <div class="school-info-grid">
+                    <div class="school-info-item"><span class="school-info-label">جنس المدرسة</span><span class="school-info-value">اناث</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الفترة</span><span class="school-info-value">فترة واحدة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">حضانة / روضة</span><span class="school-info-value">لا / لا</span></div>
+                    <div class="school-info-item"><span class="school-info-label">المنطقة</span><span class="school-info-value">جبل الجوفة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الحي</span><span class="school-info-value">شارع الدوحة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الصفوف</span><span class="school-info-value">الرابع - الثاني عشر + BTEC</span></div>
+                </div>
+                <div class="waypoint-qr-container">
+                    <img src="qrcodes/1.png" class="waypoint-qr-code" alt="QR Code">
+                </div>
+                <div class="waypoint-metric">
+                    <span>SECTOR: GOV FEMALE SECONDARY</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCHOOL 03: AL-AQSA -> مدرسة الأمير محمد الأساسية للبنين -->
+        <section class="scroll-section waypoint-section" id="section-waypoint-3">
+            <div class="waypoint-card glass-panel right-aligned">
+                <div class="waypoint-header">
+                    <span class="waypoint-num">02</span>
+                    <h2 class="waypoint-title">
+                        <span class="title-en">Prince Mohammad Basic Boys</span>
+                        <span class="title-ar">مدرسة الأمير محمد الأساسية للبنين</span>
+                    </h2>
+                </div>
+                <div class="school-info-grid">
+                    <div class="school-info-item"><span class="school-info-label">جنس المدرسة</span><span class="school-info-value">ذكور</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الفترة</span><span class="school-info-value">فترة واحدة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">المنطقة</span><span class="school-info-value">وسط البلد \ وادي السرور</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الحي</span><span class="school-info-value">شارع وادي السرور</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الصفوف</span><span class="school-info-value">الأول الأساسي - التاسع الأساسي</span></div>
+                </div>
+                <div class="waypoint-qr-container">
+                    <img src="qrcodes/2.png" class="waypoint-qr-code" alt="QR Code">
+                </div>
+                <div class="waypoint-metric">
+                    <span>SECTOR: GOV MALE BASIC</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCHOOL 04: BADER GIRLS -> مدرسة حفصة ام المؤمنين الاساسية -->
+        <section class="scroll-section waypoint-section" id="section-waypoint-4">
+            <div class="waypoint-card glass-panel left-aligned">
+                <div class="waypoint-header">
+                    <span class="waypoint-num">03</span>
+                    <h2 class="waypoint-title">
+                        <span class="title-en">Hafsa Um Al-Mo'mineen Basic</span>
+                        <span class="title-ar">مدرسة حفصة ام المؤمنين الاساسية</span>
+                    </h2>
+                </div>
+                <div class="school-info-grid">
+                    <div class="school-info-item"><span class="school-info-label">جنس المدرسة</span><span class="school-info-value">مختلطة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الفترة</span><span class="school-info-value">فترة واحدة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">حضانة / روضة</span><span class="school-info-value">لا / لا</span></div>
+                    <div class="school-info-item"><span class="school-info-label">المنطقة</span><span class="school-info-value">جبل الجوفة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الحي</span><span class="school-info-value">شارع دبي</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الصفوف</span><span class="school-info-value">الأول الأساسي - التاسع الأساسي</span></div>
+                </div>
+                <div class="waypoint-qr-container">
+                    <img src="qrcodes/3.png" class="waypoint-qr-code" alt="QR Code">
+                </div>
+                <div class="waypoint-metric">
+                    <span>SECTOR: GOV MIXED BASIC</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCHOOL 05: HASAN AL-BARQAWI -> مدرسة خديجة بنت خويلد الاساسية للبنات -->
+        <section class="scroll-section waypoint-section" id="section-waypoint-5">
+            <div class="waypoint-card glass-panel right-aligned">
+                <div class="waypoint-header">
+                    <span class="waypoint-num">04</span>
+                    <h2 class="waypoint-title">
+                        <span class="title-en">Khadija Bint Khuwaylid Basic</span>
+                        <span class="title-ar">مدرسة خديجة بنت خويلد الاساسية للبنات</span>
+                    </h2>
+                </div>
+                <div class="school-info-grid">
+                    <div class="school-info-item"><span class="school-info-label">جنس المدرسة</span><span class="school-info-value">مختلطة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الفترة</span><span class="school-info-value">فترة واحدة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">حضانة / روضة</span><span class="school-info-value">لا / لا</span></div>
+                    <div class="school-info-item"><span class="school-info-label">المنطقة</span><span class="school-info-value">جبل الجوفة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الحي</span><span class="school-info-value">شارع بركة بن ثعلبة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الصفوف</span><span class="school-info-value">الأول الأساسي - الثالث الأساسي</span></div>
+                </div>
+                <div class="waypoint-qr-container">
+                    <img src="qrcodes/4.png" class="waypoint-qr-code" alt="QR Code">
+                </div>
+                <div class="waypoint-metric">
+                    <span>SECTOR: GOV MIXED PRIMARY</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCHOOL 06: AL-JOFEH PREPARATORY -> مدرسة مصعب بن عمير الاساسية للبنين -->
+        <section class="scroll-section waypoint-section" id="section-waypoint-6">
+            <div class="waypoint-card glass-panel left-aligned">
+                <div class="waypoint-header">
+                    <span class="waypoint-num">05</span>
+                    <h2 class="waypoint-title">
+                        <span class="title-en">Musa'b Ben Omeer Basic Boys</span>
+                        <span class="title-ar">مدرسة مصعب بن عمير الاساسية للبنين</span>
+                    </h2>
+                </div>
+                <div class="school-info-grid">
+                    <div class="school-info-item"><span class="school-info-label">جنس المدرسة</span><span class="school-info-value">ذكور</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الفترة</span><span class="school-info-value">فترة واحدة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">حضانة / روضة</span><span class="school-info-value">لا / لا</span></div>
+                    <div class="school-info-item"><span class="school-info-label">المنطقة</span><span class="school-info-value">جبل الجوفة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الحي</span><span class="school-info-value">شارع الواقضي</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الصفوف</span><span class="school-info-value">الرابع الأساسي - العاشر الأساسي</span></div>
+                </div>
+                <div class="waypoint-qr-container">
+                    <img src="qrcodes/5.png" class="waypoint-qr-code" alt="QR Code">
+                </div>
+                <div class="waypoint-metric">
+                    <span>SECTOR: GOV MALE BASIC</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCHOOL 07: SALAMAH -> مدرسة الأمير حسن الثانوية للبنين -->
+        <section class="scroll-section waypoint-section" id="section-waypoint-7">
+            <div class="waypoint-card glass-panel right-aligned">
+                <div class="waypoint-header">
+                    <span class="waypoint-num">06</span>
+                    <h2 class="waypoint-title">
+                        <span class="title-en">Prince Hasan Secondary Boys</span>
+                        <span class="title-ar">مدرسة الأمير حسن الثانوية للبنين</span>
+                    </h2>
+                </div>
+                <div class="school-info-grid">
+                    <div class="school-info-item"><span class="school-info-label">جنس المدرسة</span><span class="school-info-value">ذكور</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الفترة</span><span class="school-info-value">فترة واحدة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">المنطقة</span><span class="school-info-value">جبل الجوفة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الحي</span><span class="school-info-value">حي المدرج</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الصفوف</span><span class="school-info-value">الحادي عشر - الثاني عشر الأكاديمي</span></div>
+                </div>
+                <div class="waypoint-qr-container">
+                    <img src="qrcodes/6.png" class="waypoint-qr-code" alt="QR Code">
+                </div>
+                <div class="waypoint-metric">
+                    <span>SECTOR: GOV MALE SECONDARY</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCHOOL 08: HAFSA -> مدرسة جبل الجوفة الأساسية المختلطة -->
+        <section class="scroll-section waypoint-section" id="section-waypoint-8">
+            <div class="waypoint-card glass-panel left-aligned">
+                <div class="waypoint-header">
+                    <span class="waypoint-num">07</span>
+                    <h2 class="waypoint-title">
+                        <span class="title-en">Jabal Al-Joufeh Basic Mixed</span>
+                        <span class="title-ar">مدرسة جبل الجوفة الأساسية المختلطة</span>
+                    </h2>
+                </div>
+                <div class="school-info-grid">
+                    <div class="school-info-item"><span class="school-info-label">جنس المدرسة</span><span class="school-info-value">اناث</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الفترة</span><span class="school-info-value">فترة واحدة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">حضانة / روضة</span><span class="school-info-value">لا / لا</span></div>
+                    <div class="school-info-item"><span class="school-info-label">المنطقة</span><span class="school-info-value">جبل الجوفة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الحي</span><span class="school-info-value">شارع علقمة بن طلحة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الصفوف</span><span class="school-info-value">الأول الأساسي - السادس الأساسي</span></div>
+                </div>
+                <div class="waypoint-qr-container">
+                    <img src="qrcodes/7.png" class="waypoint-qr-code" alt="QR Code">
+                </div>
+                <div class="waypoint-metric">
+                    <span>SECTOR: GOV FEMALE/MIXED BASIC</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCHOOL 09: PRINCE HAYA -> مدرسة ابن خلدون الأساسية للبنين -->
+        <section class="scroll-section waypoint-section" id="section-waypoint-9">
+            <div class="waypoint-card glass-panel right-aligned">
+                <div class="waypoint-header">
+                    <span class="waypoint-num">08</span>
+                    <h2 class="waypoint-title">
+                        <span class="title-en">Ebn Khaldoun Basic Boys</span>
+                        <span class="title-ar">مدرسة ابن خلدون الأساسية للبنين</span>
+                    </h2>
+                </div>
+                <div class="school-info-grid">
+                    <div class="school-info-item"><span class="school-info-label">الفترة</span><span class="school-info-value">فترة واحدة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">حضانة / روضة</span><span class="school-info-value">لا / لا</span></div>
+                    <div class="school-info-item"><span class="school-info-label">المنطقة</span><span class="school-info-value">جبل الجوفة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الحي</span><span class="school-info-value">شارع الجهاد</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الصفوف</span><span class="school-info-value">الأول الأساسي - الرابع الأساسي</span></div>
+                </div>
+                <div class="waypoint-qr-container">
+                    <img src="qrcodes/8.png" class="waypoint-qr-code" alt="QR Code">
+                </div>
+                <div class="waypoint-metric">
+                    <span>SECTOR: GOV MALE BASIC</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCHOOL 10: EBN KHALDOUN -> مدرسة حسن البرقاوي للبنين -->
+        <section class="scroll-section waypoint-section" id="section-waypoint-10">
+            <div class="waypoint-card glass-panel left-aligned">
+                <div class="waypoint-header">
+                    <span class="waypoint-num">09</span>
+                    <h2 class="waypoint-title">
+                        <span class="title-en">Hasan Al-Barqawi Boys</span>
+                        <span class="title-ar">مدرسة حسن البرقاوي للبنين</span>
+                    </h2>
+                </div>
+                <div class="school-info-grid">
+                    <div class="school-info-item"><span class="school-info-label">الفترة</span><span class="school-info-value">فترة واحدة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">المنطقة</span><span class="school-info-value">جبل الجوفة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الحي</span><span class="school-info-value">حي ام تينة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الصفوف</span><span class="school-info-value">التاسع الأساسي - الثاني عشر الأكاديمي</span></div>
+                </div>
+                <div class="waypoint-qr-container">
+                    <img src="qrcodes/9.png" class="waypoint-qr-code" alt="QR Code">
+                </div>
+                <div class="waypoint-metric">
+                    <span>SECTOR: GOV MALE SECONDARY</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCHOOL 11: MUSA'B BEN OMEER -> مدرسة امنة بنت وهب الأساسية -->
+        <section class="scroll-section waypoint-section" id="section-waypoint-11">
+            <div class="waypoint-card glass-panel right-aligned">
+                <div class="waypoint-header">
+                    <span class="waypoint-num">10</span>
+                    <h2 class="waypoint-title">
+                        <span class="title-en">Aminah Bint Wahb Basic</span>
+                        <span class="title-ar">مدرسة امنة بنت وهب الأساسية</span>
+                    </h2>
+                </div>
+                <div class="school-info-grid">
+                    <div class="school-info-item"><span class="school-info-label">جنس المدرسة</span><span class="school-info-value">مختلطة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الفترة</span><span class="school-info-value">فترة واحدة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">حضانة / روضة</span><span class="school-info-value">لا / لا</span></div>
+                    <div class="school-info-item"><span class="school-info-label">المنطقة</span><span class="school-info-value">جبل الجوفة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الحي</span><span class="school-info-value">شارع الغافقي</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الصفوف</span><span class="school-info-value">الأول الأساسي - السادس الأساسي</span></div>
+                </div>
+                <div class="waypoint-qr-container">
+                    <img src="qrcodes/10.png" class="waypoint-qr-code" alt="QR Code">
+                </div>
+                <div class="waypoint-metric">
+                    <span>SECTOR: GOV MIXED BASIC</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCHOOL 12: RAMLA BINT -> مدرسة جعفر الطيار الثانوية للبنين -->
+        <section class="scroll-section waypoint-section" id="section-waypoint-12">
+            <div class="waypoint-card glass-panel left-aligned">
+                <div class="waypoint-header">
+                    <span class="waypoint-num">11</span>
+                    <h2 class="waypoint-title">
+                        <span class="title-en">Ja'far Al-Tayyar Secondary</span>
+                        <span class="title-ar">مدرسة جعفر الطيار الثانوية للبنين</span>
+                    </h2>
+                </div>
+                <div class="school-info-grid">
+                    <div class="school-info-item"><span class="school-info-label">جنس المدرسة</span><span class="school-info-value">ذكور</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الفترة</span><span class="school-info-value">فترة واحدة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">المنطقة</span><span class="school-info-value">جبل التاج</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الحي</span><span class="school-info-value">شارع حطين</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الصفوف</span><span class="school-info-value">الخامس الأساسي - العاشر الأكاديمي</span></div>
+                </div>
+                <div class="waypoint-qr-container">
+                    <img src="qrcodes/11.png" class="waypoint-qr-code" alt="QR Code">
+                </div>
+                <div class="waypoint-metric">
+                    <span>SECTOR: GOV MALE SECONDARY</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCHOOL 13: AL-ANBAT -> مدرسة الأميرة هيا الأساسية المختلطة -->
+        <section class="scroll-section waypoint-section" id="section-waypoint-13">
+            <div class="waypoint-card glass-panel right-aligned">
+                <div class="waypoint-header">
+                    <span class="waypoint-num">12</span>
+                    <h2 class="waypoint-title">
+                        <span class="title-en">Princess Haya Basic Mixed</span>
+                        <span class="title-ar">مدرسة الأميرة هيا الأساسية المختلطة</span>
+                    </h2>
+                </div>
+                <div class="school-info-grid">
+                    <div class="school-info-item"><span class="school-info-label">جنس المدرسة</span><span class="school-info-value">اناث</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الفترة</span><span class="school-info-value">فترة واحدة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">حضانة / روضة</span><span class="school-info-value">لا / لا</span></div>
+                    <div class="school-info-item"><span class="school-info-label">المنطقة</span><span class="school-info-value">جبل الجوفة</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الحي</span><span class="school-info-value">شارع الابهري</span></div>
+                    <div class="school-info-item"><span class="school-info-label">الصفوف</span><span class="school-info-value">الأول الأساسي - العاشر الأساسي</span></div>
+                </div>
+                <div class="waypoint-qr-container">
+                    <img src="qrcodes/12.png" class="waypoint-qr-code" alt="QR Code">
+                </div>
+                <div class="waypoint-metric">
+                    <span>SECTOR: GOV FEMALE BASIC</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: LANDING / CONCLUSION GALLERY -->
+        <section class="scroll-section gallery-section" id="section-gallery">
+            <div class="gallery-container glass-panel">
+                <h2 class="gallery-title">LANDING ACCOMPLISHED</h2>
+                <p class="gallery-subtitle">Explore the landmarks captured during your Al-Joufeh FPV schools odyssey</p>
+                
+                <div class="gallery-grid schools-directory">
+                    <!-- School 1 -->
+                    <div class="gallery-item school-nav-card" data-school-index="1" tabindex="0">
+                        <div class="school-card-header">
+                            <span class="school-card-num">01</span>
+                            <span class="school-card-badge">Gov</span>
+                        </div>
+                        <div class="school-card-details">
+                            <h3>Bader Secondary Girls</h3>
+                            <p class="arabic-name">مدرسة بدر الثانوية للبنات</p>
+                            <span class="dive-label">CLICK TO DIVE &rarr;</span>
+                        </div>
+                    </div>
+                    <!-- School 2 -->
+                    <div class="gallery-item school-nav-card" data-school-index="2" tabindex="0">
+                        <div class="school-card-header">
+                            <span class="school-card-num">02</span>
+                            <span class="school-card-badge">Gov</span>
+                        </div>
+                        <div class="school-card-details">
+                            <h3>Prince Mohammad Basic Boys</h3>
+                            <p class="arabic-name">مدرسة الأمير محمد الأساسية</p>
+                            <span class="dive-label">CLICK TO DIVE &rarr;</span>
+                        </div>
+                    </div>
+                    <!-- School 3 -->
+                    <div class="gallery-item school-nav-card" data-school-index="3" tabindex="0">
+                        <div class="school-card-header">
+                            <span class="school-card-num">03</span>
+                            <span class="school-card-badge">Gov</span>
+                        </div>
+                        <div class="school-card-details">
+                            <h3>Hafsa Um Al-Mo'mineen Basic</h3>
+                            <p class="arabic-name">مدرسة حفصة ام المؤمنين الاساسية</p>
+                            <span class="dive-label">CLICK TO DIVE &rarr;</span>
+                        </div>
+                    </div>
+                    <!-- School 4 -->
+                    <div class="gallery-item school-nav-card" data-school-index="4" tabindex="0">
+                        <div class="school-card-header">
+                            <span class="school-card-num">04</span>
+                            <span class="school-card-badge">Gov</span>
+                        </div>
+                        <div class="school-card-details">
+                            <h3>Khadija Bint Khuwaylid Basic</h3>
+                            <p class="arabic-name">مدرسة خديجة بنت خويلد الاساسية</p>
+                            <span class="dive-label">CLICK TO DIVE &rarr;</span>
+                        </div>
+                    </div>
+                    <!-- School 5 -->
+                    <div class="gallery-item school-nav-card" data-school-index="5" tabindex="0">
+                        <div class="school-card-header">
+                            <span class="school-card-num">05</span>
+                            <span class="school-card-badge">Gov</span>
+                        </div>
+                        <div class="school-card-details">
+                            <h3>Musa'b Basic Boys</h3>
+                            <p class="arabic-name">مدرسة مصعب بن عمير الاساسية</p>
+                            <span class="dive-label">CLICK TO DIVE &rarr;</span>
+                        </div>
+                    </div>
+                    <!-- School 6 -->
+                    <div class="gallery-item school-nav-card" data-school-index="6" tabindex="0">
+                        <div class="school-card-header">
+                            <span class="school-card-num">06</span>
+                            <span class="school-card-badge">Gov</span>
+                        </div>
+                        <div class="school-card-details">
+                            <h3>Prince Hasan Secondary Boys</h3>
+                            <p class="arabic-name">مدرسة الأمير حسن الثانوية</p>
+                            <span class="dive-label">CLICK TO DIVE &rarr;</span>
+                        </div>
+                    </div>
+                    <!-- School 7 -->
+                    <div class="gallery-item school-nav-card" data-school-index="7" tabindex="0">
+                        <div class="school-card-header">
+                            <span class="school-card-num">07</span>
+                            <span class="school-card-badge">Gov</span>
+                        </div>
+                        <div class="school-card-details">
+                            <h3>Jabal Al-Joufeh Basic Mixed</h3>
+                            <p class="arabic-name">مدرسة جبل الجوفة الأساسية</p>
+                            <span class="dive-label">CLICK TO DIVE &rarr;</span>
+                        </div>
+                    </div>
+                    <!-- School 8 -->
+                    <div class="gallery-item school-nav-card" data-school-index="8" tabindex="0">
+                        <div class="school-card-header">
+                            <span class="school-card-num">08</span>
+                            <span class="school-card-badge">Gov</span>
+                        </div>
+                        <div class="school-card-details">
+                            <h3>Ebn Khaldoun Basic Boys</h3>
+                            <p class="arabic-name">مدرسة ابن خلدون الأساسية</p>
+                            <span class="dive-label">CLICK TO DIVE &rarr;</span>
+                        </div>
+                    </div>
+                    <!-- School 9 -->
+                    <div class="gallery-item school-nav-card" data-school-index="9" tabindex="0">
+                        <div class="school-card-header">
+                            <span class="school-card-num">09</span>
+                            <span class="school-card-badge">Gov</span>
+                        </div>
+                        <div class="school-card-details">
+                            <h3>Hasan Al-Barqawi Boys</h3>
+                            <p class="arabic-name">مدرسة حسن البرقاوي للبنين</p>
+                            <span class="dive-label">CLICK TO DIVE &rarr;</span>
+                        </div>
+                    </div>
+                    <!-- School 10 -->
+                    <div class="gallery-item school-nav-card" data-school-index="10" tabindex="0">
+                        <div class="school-card-header">
+                            <span class="school-card-num">10</span>
+                            <span class="school-card-badge">Gov</span>
+                        </div>
+                        <div class="school-card-details">
+                            <h3>Aminah Bint Wahb Basic</h3>
+                            <p class="arabic-name">مدرسة امنة بنت وهب الأساسية</p>
+                            <span class="dive-label">CLICK TO DIVE &rarr;</span>
+                        </div>
+                    </div>
+                    <!-- School 11 -->
+                    <div class="gallery-item school-nav-card" data-school-index="11" tabindex="0">
+                        <div class="school-card-header">
+                            <span class="school-card-num">11</span>
+                            <span class="school-card-badge">Gov</span>
+                        </div>
+                        <div class="school-card-details">
+                            <h3>Ja'far Al-Tayyar Secondary</h3>
+                            <p class="arabic-name">مدرسة جعفر الطيار الثانوية</p>
+                            <span class="dive-label">CLICK TO DIVE &rarr;</span>
+                        </div>
+                    </div>
+                    <!-- School 12 -->
+                    <div class="gallery-item school-nav-card" data-school-index="12" tabindex="0">
+                        <div class="school-card-header">
+                            <span class="school-card-num">12</span>
+                            <span class="school-card-badge">Gov</span>
+                        </div>
+                        <div class="school-card-details">
+                            <h3>Princess Haya Basic Mixed</h3>
+                            <p class="arabic-name">مدرسة الأميرة هيا الأساسية</p>
+                            <span class="dive-label">CLICK TO DIVE &rarr;</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-footer">
+                    <button id="btn-replay" class="btn-primary">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                        </svg>
+                        REPLAY SCHOOLS ODYSSEY
+                    </button>
+                    <p class="footer-copyright">&copy; 2026 Al-Joufeh Schools FPV Experience. By Amal Mustafa.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom HUD Glass Controller Deck -->
+    <div id="hud-controller-deck" class="hud-controller-deck glass-panel">
+        
+        <!-- Left Section: Audio & Cinematic Controls -->
+        <div class="deck-section deck-controls-left"></div>
+
+        <!-- Center Section: Slider Scrubber -->
+        <div class="deck-section deck-scrubber">
+            <span class="scrubber-indicator" id="scrubber-frame">FRAME 001</span>
+            <input type="range" id="flight-scrubber" min="1" max="2880" value="1" step="1" aria-label="Scrub flight frames">
+            <span class="scrubber-indicator" id="scrubber-percent">0% DIVE</span>
+        </div>
+
+        <!-- Right Section: Auto-pilot & Speeds -->
+        <div class="deck-section deck-controls-right">
+            <button id="btn-directory" class="hud-btn" title="Go to Schools Directory" aria-label="Go to schools directory">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="9"/>
+                    <rect x="14" y="3" width="7" height="5"/>
+                    <rect x="14" y="12" width="7" height="9"/>
+                    <rect x="3" y="16" width="7" height="5"/>
+                </svg>
+                <span class="btn-label">DIRECTORY</span>
+            </button>
+            <button id="btn-autopilot" class="hud-btn btn-accent" title="Toggle Autopilot Tour" aria-label="Toggle autopilot auto-scrolling">
+                <svg id="svg-play" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                <svg id="svg-pause" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" class="hidden">
+                    <rect x="6" y="4" width="4" height="16"/>
+                    <rect x="14" y="4" width="4" height="16"/>
+                </svg>
+                <span class="btn-label" id="autopilot-text">AUTO-PILOT</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Web Audio synth engine & Scroll Animation scripts -->
+    <script src="app.js"></script>
+</body>
+</html>

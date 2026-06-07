@@ -1,0 +1,1143 @@
+/* ==========================================================================
+   AMMAN FPV DRONE EXPERIENCE - STYLING
+   Aesthetics: Premium, Immersive, Cyber-Heritage Dark Theme
+   Colors: Obsidian Black, Golden Sunset Amber, Copper Gold
+   ========================================================================== */
+
+:root {
+    --bg-dark: #050507;
+    --bg-card: rgba(13, 13, 18, 0.65);
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --border-accent: rgba(226, 135, 67, 0.25);
+    --text-primary: #f4f4f7;
+    --text-secondary: #a1a1aa;
+    --accent: #e28743;
+    /* Sunset Copper */
+    --accent-glow: rgba(226, 135, 67, 0.6);
+    --accent-gold: #f39c12;
+    /* Golden Hour Amber */
+    --green-status: #10b981;
+    --red-flag: #ef4444;
+    --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    --font-head: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'Space Grotesk', sans-serif;
+}
+
+/* Reset & Scroll Setup */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    scroll-behavior: auto;
+}
+
+/* Premium Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(226, 135, 67, 0.3);
+    border-radius: 4px;
+    border: 2px solid var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+/* ==========================================================================
+   LOADING OVERLAY
+   ========================================================================== */
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #020204;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.loader-content {
+    text-align: center;
+    max-width: 450px;
+    padding: 2rem;
+}
+
+.drone-icon-container {
+    margin-bottom: 2rem;
+    position: relative;
+    display: inline-block;
+}
+
+.drone-svg {
+    filter: drop-shadow(0 0 10px var(--accent-glow));
+    animation: droneHover 3s ease-in-out infinite;
+}
+
+.propeller {
+    transform-origin: 50% 50%;
+}
+
+.prop-top-left {
+    animation: spinPropeller 0.15s linear infinite;
+    transform-origin: 20px 20px;
+}
+
+.prop-top-right {
+    animation: spinPropeller 0.15s linear infinite;
+    transform-origin: 80px 20px;
+}
+
+.prop-bottom-left {
+    animation: spinPropeller 0.15s linear infinite;
+    transform-origin: 20px 80px;
+}
+
+.prop-bottom-right {
+    animation: spinPropeller 0.15s linear infinite;
+    transform-origin: 80px 80px;
+}
+
+.loader-title {
+    font-family: var(--font-head);
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.loader-subtitle {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    margin-bottom: 2.5rem;
+    font-weight: 600;
+}
+
+.loader-bar-bg {
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.loader-bar-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-gold));
+    box-shadow: 0 0 8px var(--accent-glow);
+    transition: width 0.1s linear;
+}
+
+.loader-percentage {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.loader-status {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* Animations */
+@keyframes droneHover {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-12px) rotate(1deg);
+    }
+}
+
+@keyframes spinPropeller {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==========================================================================
+   CANVAS BACKGROUND & ATMOSPHERE
+   ========================================================================== */
+.canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: #000;
+    overflow: hidden;
+    pointer-events: none;
+    /* Let all mouse/scroll events pass through to the scrollable body */
+}
+
+#scroll-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.vignette-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0) 40%, rgba(5, 5, 7, 0.7) 80%, rgba(5, 5, 7, 0.95) 100%);
+    z-index: 2;
+}
+
+.scanlines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%,
+            rgba(0, 0, 0, 0.15) 50%);
+    background-size: 100% 4px;
+    z-index: 3;
+    opacity: 0.4;
+}
+
+/* ==========================================================================
+   SYSTEMS HUD HEADER (TOP BAR)
+   ========================================================================== */
+.systems-hud-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem 2.5rem;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    /* Let clicks pass through */
+    transition: var(--transition-smooth);
+    background: linear-gradient(180deg, rgba(5, 5, 7, 0.85) 0%, rgba(5, 5, 7, 0) 100%);
+}
+
+.hud-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    pointer-events: auto;
+}
+
+.hud-logo {
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: 0.15em;
+    color: var(--text-primary);
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.hud-logo .accent {
+    color: var(--accent);
+    text-shadow: 0 0 8px var(--accent-glow);
+}
+
+.hud-pill-status {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    backdrop-filter: blur(8px);
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--green-status);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--green-status);
+}
+
+.status-dot.pulsing {
+    animation: statusPulse 1.8s infinite ease-in-out;
+}
+
+.status-text {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--green-status);
+}
+
+.hud-right {
+    display: flex;
+    gap: 2.5rem;
+    pointer-events: auto;
+}
+
+.hud-metric {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.metric-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--text-secondary);
+    margin-bottom: 0.15rem;
+}
+
+.metric-val {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.metric-val.text-green {
+    color: var(--green-status);
+}
+
+@keyframes statusPulse {
+
+    0%,
+    100% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* ==========================================================================
+   SCROLLING INTERACTIVE OVERLAYS
+   ========================================================================== */
+.scroll-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    /* The main layout heights will be dynamically mapped by JS */
+}
+
+/* Base style for glassmorphic panels */
+.glass-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 16px;
+    padding: 2.5rem;
+    transition: var(--transition-smooth);
+}
+
+.glass-panel:hover {
+    border-color: var(--border-accent);
+}
+
+/* Section sizing */
+.scroll-section {
+    position: relative;
+    width: 100%;
+    min-height: 130vh; /* Taller sections to slow down scroll speed and extend card visibility */
+    display: flex;
+    align-items: center;
+    padding: 10vh 8%;
+    box-sizing: border-box;
+}
+
+/* Section 1: Hero Centering */
+.hero-section {
+    justify-content: center;
+}
+
+.hero-card {
+    max-width: 580px;
+    text-align: center;
+    border: 1px solid rgba(226, 135, 67, 0.15);
+    background: rgba(13, 13, 18, 0.55);
+}
+
+.pre-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.8rem;
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.main-title {
+    font-family: var(--font-head);
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #fff 40%, var(--accent-gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-desc {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+}
+
+/* Mouse Scroll Animation */
+.scroll-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.mouse-icon {
+    width: 24px;
+    height: 40px;
+    border: 2px solid var(--text-secondary);
+    border-radius: 12px;
+    position: relative;
+}
+
+.scroll-wheel {
+    width: 4px;
+    height: 8px;
+    background-color: var(--accent);
+    border-radius: 2px;
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scrollWheelPulse 1.5s infinite ease-in-out;
+}
+
+.scroll-text {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--text-secondary);
+}
+
+@keyframes scrollWheelPulse {
+    0% {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+
+    80% {
+        transform: translate(-50%, 14px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translate(-50%, 0);
+        opacity: 0;
+    }
+}
+
+/* Waypoint Sections (Left & Right Cards) */
+.waypoint-section {
+    display: flex;
+    align-items: flex-start;
+    padding-top: 15vh;
+    pointer-events: none;
+    /* Let users click and scroll elements underneath */
+}
+
+#section-waypoint-13 {
+    min-height: 200vh; /* Extra tall last section to delay gallery entry */
+}
+
+.waypoint-card {
+    position: fixed;
+    top: 15vh;
+    max-width: 460px;
+    width: calc(100% - 16%);
+    pointer-events: auto;
+    /* Re-enable pointer events for the card specifically */
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 10;
+}
+
+/* Card alignments */
+.waypoint-card.right-aligned {
+    right: 8%;
+    left: auto;
+}
+
+.waypoint-card.left-aligned {
+    left: 8%;
+    right: auto;
+}
+
+
+
+.waypoint-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.waypoint-num {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.waypoint-title {
+    font-family: var(--font-head);
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    line-height: 1.2;
+}
+
+.waypoint-title .title-en {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.waypoint-title .title-ar {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--accent);
+    font-family: var(--font-body);
+}
+
+.waypoint-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.waypoint-metric {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--text-primary);
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    background: rgba(226, 135, 67, 0.12);
+    border: 1px solid rgba(226, 135, 67, 0.2);
+}
+
+/* ==========================================================================
+   LANDING / CONCLUSION GALLERY
+   ========================================================================== */
+.gallery-section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 8vh;
+    padding-bottom: 22vh;
+    /* Space so controller deck doesn't overlap contents */
+}
+
+.gallery-container {
+    width: 100%;
+    max-width: 1100px;
+    text-align: center;
+    background: rgba(10, 10, 15, 0.85);
+    border-color: rgba(226, 135, 67, 0.2);
+}
+
+.gallery-title {
+    font-family: var(--font-head);
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.08);
+}
+
+.gallery-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 3.5rem;
+}
+
+.gallery-item {
+    background: rgba(5, 5, 8, 0.7);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    overflow: hidden;
+    text-align: left;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+}
+
+.gallery-item:hover,
+.gallery-item:focus {
+    transform: translateY(-8px);
+    border-color: var(--accent);
+    box-shadow: 0 10px 25px rgba(226, 135, 67, 0.15);
+    outline: none;
+}
+
+.gallery-img-wrapper {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+}
+
+.gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gallery-item:hover .gallery-img {
+    transform: scale(1.08);
+}
+
+.gallery-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--border-glass);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    backdrop-filter: blur(4px);
+}
+
+.gallery-details {
+    padding: 1.5rem;
+}
+
+.gallery-details h3 {
+    font-family: var(--font-head);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: var(--text-primary);
+}
+
+.gallery-details p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.gallery-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 2.5rem;
+}
+
+.btn-primary {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent-gold));
+    border: none;
+    color: #fff;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(226, 135, 67, 0.3);
+    transition: var(--transition-smooth);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(226, 135, 67, 0.5);
+}
+
+.btn-primary svg {
+    transition: transform 0.4s ease;
+}
+
+.btn-primary:hover svg {
+    transform: rotate(180deg);
+}
+
+.footer-copyright {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.25);
+    letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   BOTTOM GLASS CONTROLLER HUD (DECK)
+   ========================================================================== */
+.hud-controller-deck {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1000px;
+    z-index: 100;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(10, 10, 15, 0.75);
+    border-radius: 50px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hud-controller-deck.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 60px);
+}
+
+.deck-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Left Buttons (Audio & Cinematic) */
+.hud-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: var(--transition-smooth);
+}
+
+.hud-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.hud-btn.btn-accent {
+    background: linear-gradient(135deg, rgba(226, 135, 67, 0.2), rgba(243, 156, 18, 0.2));
+    border-color: rgba(226, 135, 67, 0.4);
+    color: var(--accent-gold);
+}
+
+.hud-btn.btn-accent:hover {
+    background: linear-gradient(135deg, rgba(226, 135, 67, 0.3), rgba(243, 156, 18, 0.3));
+    border-color: var(--accent);
+}
+
+.btn-label {
+    margin-top: 2px;
+}
+
+/* Center Slider / Scrubber */
+.deck-scrubber {
+    flex-grow: 1;
+    max-width: 450px;
+    margin: 0 2rem;
+    gap: 1.2rem;
+}
+
+.scrubber-indicator {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    min-width: 80px;
+    text-align: center;
+}
+
+#scrubber-percent {
+    text-align: right;
+}
+
+/* Range Input Styling */
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 2px;
+    transition: var(--transition-smooth);
+}
+
+input[type=range]:hover::-webkit-slider-runnable-track {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+input[type=range]::-webkit-slider-thumb {
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -6px;
+    box-shadow: 0 0 10px var(--accent-glow);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+input[type=range]:active::-webkit-slider-thumb {
+    transform: scale(1.3);
+    background: #fff;
+}
+
+/* Utility to toggle items */
+.hidden {
+    display: none !important;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (MEDIA QUERIES)
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .systems-hud-header {
+        padding: 1rem 1.5rem;
+    }
+
+    .hud-right {
+        gap: 1.2rem;
+    }
+
+    .hud-logo {
+        font-size: 1.1rem;
+    }
+
+    .hud-pill-status {
+        display: none;
+        /* Hide pill in portrait mobile to make room */
+    }
+
+    .main-title {
+        font-size: 2.5rem;
+    }
+
+    .scroll-section {
+        padding: 8vh 5%;
+    }
+
+    .waypoint-card {
+        max-width: 100%;
+        /* Spans full screen width on mobile */
+        padding: 1.8rem;
+        left: 5% !important;
+        right: 5% !important;
+        width: 90% !important;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .hud-controller-deck {
+        width: 95%;
+        padding: 0.8rem 1.2rem;
+        flex-direction: column;
+        border-radius: 24px;
+        gap: 1rem;
+        bottom: 1rem;
+    }
+
+    .deck-section {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .deck-scrubber {
+        margin: 0;
+        max-width: 100%;
+    }
+
+    .btn-label {
+        display: none;
+        /* Hide button text labels, show icons only on small screens */
+    }
+
+    .hud-btn {
+        padding: 0.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hud-right .hud-metric:nth-child(2) {
+        display: none;
+        /* Hide FPV speed on tiny mobiles to avoid clipping */
+    }
+
+    .main-title {
+        font-size: 2rem;
+    }
+}
+
+/* ==========================================================================
+   INTERACTIVE SCHOOLS DIRECTORY STYLES
+   ========================================================================== */
+.schools-directory {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+    gap: 1.2rem !important;
+    margin-bottom: 3.5rem;
+}
+
+.school-nav-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.5rem 1.2rem;
+    min-height: 150px;
+    background: rgba(13, 13, 20, 0.5) !important;
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    text-align: left;
+}
+
+.school-nav-card:hover,
+.school-nav-card:focus {
+    transform: translateY(-6px) scale(1.02);
+    border-color: var(--accent) !important;
+    background: rgba(226, 135, 67, 0.08) !important;
+    box-shadow: 0 12px 30px rgba(226, 135, 67, 0.18);
+    outline: none;
+}
+
+.school-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.school-card-num {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-shadow: 0 0 8px var(--accent-glow);
+}
+
+.school-card-badge {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.school-nav-card:hover .school-card-badge {
+    background: rgba(226, 135, 67, 0.25);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+.school-card-details h3 {
+    font-family: var(--font-head);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.3rem;
+    line-height: 1.3;
+}
+
+.school-card-details .arabic-name {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.2rem;
+    font-weight: 500;
+}
+
+.dive-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    opacity: 0.5;
+    display: inline-flex;
+    align-items: center;
+    transition: var(--transition-smooth);
+}
+
+.school-nav-card:hover .dive-label {
+    opacity: 1;
+    color: var(--accent-gold);
+    transform: translateX(6px);
+}
+
+/* ==========================================================================
+   SCHOOL INFO GRID & QR CONTAINER STYLES
+   ========================================================================== */
+.school-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+    margin: 1.2rem 0;
+    font-size: 0.82rem;
+    direction: rtl;
+    text-align: right;
+}
+
+.school-info-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.school-info-label {
+    color: var(--text-secondary);
+    font-size: 0.72rem;
+}
+
+.school-info-value {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.waypoint-qr-container {
+    margin: 1.2rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(226, 135, 67, 0.15);
+    border-radius: 12px;
+    padding: 0.8rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.waypoint-qr-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation: qrScan 3.5s linear infinite;
+    z-index: 2;
+}
+
+@keyframes qrScan {
+    0% { transform: translateY(-20px); }
+    50% { transform: translateY(140px); }
+    100% { transform: translateY(-20px); }
+}
+
+.waypoint-qr-code {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 6px rgba(226, 135, 67, 0.3));
+    border-radius: 6px;
+    background: #fff;
+    padding: 4px;
+    z-index: 1;
+}
