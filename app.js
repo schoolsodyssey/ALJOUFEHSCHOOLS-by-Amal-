@@ -494,7 +494,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         calculateScrollSpeed(currentScroll);
 
-        frameIndex.target = getFrameIndexForScroll(currentScroll);
+        const zoomFactor = parseFloat(getComputedStyle(document.documentElement).zoom) || 1.0;
+        const unzoomedScroll = currentScroll / zoomFactor;
+
+        frameIndex.target = getFrameIndexForScroll(unzoomedScroll);
     });
 
     // ----------------------------------------------------------------------
@@ -513,9 +516,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Force scroll container to scroll to the corresponding ratio
         const targetScroll = getScrollForFrameIndex(value);
+        const zoomFactor = parseFloat(getComputedStyle(document.documentElement).zoom) || 1.0;
 
         window.scrollTo({
-            top: targetScroll,
+            top: targetScroll * zoomFactor,
             behavior: 'auto' // Instant update for real-time scrubber response
         });
     });
@@ -769,10 +773,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Calculate precise scroll target for this school
             const middleFrame = (school.start + school.end) / 2;
             const targetScroll = getScrollForFrameIndex(middleFrame);
+            const zoomFactor = parseFloat(getComputedStyle(document.documentElement).zoom) || 1.0;
 
             // Trigger a breathtaking cinematic smooth scroll to the school's FPV frame coordinates
             window.scrollTo({
-                top: targetScroll,
+                top: targetScroll * zoomFactor,
                 behavior: 'smooth'
             });
         };
