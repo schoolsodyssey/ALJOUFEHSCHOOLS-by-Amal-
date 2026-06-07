@@ -71,10 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnEnterOdyssey) {
         btnEnterOdyssey.addEventListener('click', () => {
             if (!isImagesLoaded) return;
-            
+
             // Remove the body lock class to allow scrolling the main page
             document.body.classList.remove('loading-active');
-            
+
             // Premium cinematic fade-out for loader overlay
             loader.style.opacity = '0';
             setTimeout(() => {
@@ -346,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     loaderPercent.innerText = `${percent}%`;
 
                     // Context-sensitive status messages
-                     if (percent < 10) {
+                    if (percent < 10) {
                         loaderStatus.innerText = 'Starting dive over Amman Kasabah district...';
                     } else if (percent < 20) {
                         loaderStatus.innerText = 'Sweeping Bader Secondary Girls ridge...';

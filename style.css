@@ -1311,8 +1311,10 @@ input[type=range]:active::-webkit-slider-thumb {
 .waypoint-qr-container {
     margin: 1.2rem 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 0.6rem;
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(226, 135, 67, 0.15);
     border-radius: 12px;
@@ -1339,7 +1341,7 @@ input[type=range]:active::-webkit-slider-thumb {
     }
 
     50% {
-        transform: translateY(140px);
+        transform: translateY(170px);
     }
 
     100% {
@@ -1356,4 +1358,24 @@ input[type=range]:active::-webkit-slider-thumb {
     background: #fff;
     padding: 4px;
     z-index: 1;
+}
+
+.waypoint-qr-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    z-index: 1;
+    text-shadow: 0 0 8px var(--accent-glow);
+    margin-top: 0.2rem;
+    opacity: 0.85;
+    transition: var(--transition-smooth);
+    pointer-events: none;
+}
+
+.waypoint-qr-container:hover .waypoint-qr-label {
+    color: var(--accent-gold);
+    opacity: 1;
+    text-shadow: 0 0 12px var(--accent-gold);
 }
