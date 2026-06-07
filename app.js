@@ -72,6 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
         btnEnterOdyssey.addEventListener('click', () => {
             if (!isImagesLoaded) return;
             
+            // Remove the body lock class to allow scrolling the main page
+            document.body.classList.remove('loading-active');
+            
             // Premium cinematic fade-out for loader overlay
             loader.style.opacity = '0';
             setTimeout(() => {
