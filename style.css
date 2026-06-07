@@ -355,8 +355,9 @@ body.loading-active {
 /* Responsive Styles for Loader layout */
 @media (max-width: 900px) {
     .loader-overlay {
-        padding: 1rem 0;
+        padding: 2rem 0;
         overflow-y: auto;
+        display: block; /* Override flex centering to allow natural scrolling on mobile */
     }
     .loader-layout {
         flex-direction: column;
@@ -368,7 +369,11 @@ body.loading-active {
     }
     .loader-info-panel {
         padding: 2rem;
-        height: 50vh;
+        height: auto; /* Let panel expand to fit cards naturally */
+    }
+    .loader-schools-list {
+        overflow-y: visible; /* Disable nested scrolling on mobile */
+        padding-right: 0;
     }
 }
 
