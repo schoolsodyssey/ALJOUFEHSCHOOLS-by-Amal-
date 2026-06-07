@@ -65,6 +65,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = canvas.getContext('2d');
     const scrollContainer = document.getElementById('scroll-container');
     const flightScrubber = document.getElementById('flight-scrubber');
+    const btnEnterOdyssey = document.getElementById('btn-enter-odyssey');
+
+    // Enter Odyssey Click Transition
+    if (btnEnterOdyssey) {
+        btnEnterOdyssey.addEventListener('click', () => {
+            if (!isImagesLoaded) return;
+            
+            // Premium cinematic fade-out for loader overlay
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+                // Trigger FPV canvas layout and starting engine loop
+                resizeCanvas();
+                updateSectionPositions();
+                animate();
+            }, 800);
+        });
+    }
 
     // HUD elements
     const hudAltitude = document.getElementById('hud-altitude');
@@ -365,17 +383,12 @@ document.addEventListener('DOMContentLoaded', () => {
         await Promise.all(loadPromises);
         isImagesLoaded = true;
 
-        // Breathtaking fade-out effect for loader
-        setTimeout(() => {
-            loader.style.opacity = '0';
-            setTimeout(() => {
-                loader.style.display = 'none';
-                // Fire up initial canvas resize and first frame draw
-                resizeCanvas();
-                updateSectionPositions();
-                animate();
-            }, 800);
-        }, 1000);
+        // Activate user-controlled Enter Odyssey button at 100% preloading
+        if (btnEnterOdyssey) {
+            btnEnterOdyssey.disabled = false;
+            btnEnterOdyssey.classList.add('ready');
+            btnEnterOdyssey.innerText = 'ENTER ODYSSEY // ابدأ الرحلة';
+        }
     }
 
     // ----------------------------------------------------------------------

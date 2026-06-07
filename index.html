@@ -24,42 +24,273 @@
 <body>
 
     <!-- Premium Cinematic Loader -->
+    <!-- Premium Cinematic Loader -->
     <div id="loader" class="loader-overlay">
-        <div class="loader-content">
-            <!-- Drone SVG Icon -->
-            <div class="drone-icon-container">
-                <svg class="drone-svg" viewBox="0 0 100 100" width="80" height="80">
-                    <circle cx="50" cy="50" r="10" fill="none" stroke="var(--accent)" stroke-width="2" />
-                    <!-- Propellers -->
-                    <g class="propeller prop-top-left">
-                        <line x1="20" y1="20" x2="35" y2="35" stroke="var(--accent)" stroke-width="2"/>
-                        <ellipse cx="20" cy="20" rx="10" ry="2" fill="none" stroke="var(--accent-glow)" stroke-width="1"/>
-                    </g>
-                    <g class="propeller prop-top-right">
-                        <line x1="80" y1="20" x2="65" y2="35" stroke="var(--accent)" stroke-width="2"/>
-                        <ellipse cx="80" cy="20" rx="10" ry="2" fill="none" stroke="var(--accent-glow)" stroke-width="1"/>
-                    </g>
-                    <g class="propeller prop-bottom-left">
-                        <line x1="20" y1="80" x2="35" y2="65" stroke="var(--accent)" stroke-width="2"/>
-                        <ellipse cx="20" cy="80" rx="10" ry="2" fill="none" stroke="var(--accent-glow)" stroke-width="1"/>
-                    </g>
-                    <g class="propeller prop-bottom-right">
-                        <line x1="80" y1="80" x2="65" y2="65" stroke="var(--accent)" stroke-width="2"/>
-                        <ellipse cx="80" cy="80" rx="10" ry="2" fill="none" stroke="var(--accent-glow)" stroke-width="1"/>
-                    </g>
-                    <!-- Body arms -->
-                    <line x1="30" y1="30" x2="70" y2="70" stroke="white" stroke-width="3" stroke-linecap="round"/>
-                    <line x1="70" y1="30" x2="30" y2="70" stroke="white" stroke-width="3" stroke-linecap="round"/>
-                    <!-- Core camera -->
-                    <circle cx="50" cy="50" r="6" fill="var(--accent)" />
-                </svg>
+        <div class="loader-layout">
+            <!-- Left Side: Status & Control -->
+            <div class="loader-control-panel glass-panel">
+                <div class="drone-icon-container">
+                    <svg class="drone-svg" viewBox="0 0 100 100" width="80" height="80">
+                        <circle cx="50" cy="50" r="10" fill="none" stroke="var(--accent)" stroke-width="2" />
+                        <!-- Propellers -->
+                        <g class="propeller prop-top-left">
+                            <line x1="20" y1="20" x2="35" y2="35" stroke="var(--accent)" stroke-width="2"/>
+                            <ellipse cx="20" cy="20" rx="10" ry="2" fill="none" stroke="var(--accent-glow)" stroke-width="1"/>
+                        </g>
+                        <g class="propeller prop-top-right">
+                            <line x1="80" y1="20" x2="65" y2="35" stroke="var(--accent)" stroke-width="2"/>
+                            <ellipse cx="80" cy="20" rx="10" ry="2" fill="none" stroke="var(--accent-glow)" stroke-width="1"/>
+                        </g>
+                        <g class="propeller prop-bottom-left">
+                            <line x1="20" y1="80" x2="35" y2="65" stroke="var(--accent)" stroke-width="2"/>
+                            <ellipse cx="20" cy="80" rx="10" ry="2" fill="none" stroke="var(--accent-glow)" stroke-width="1"/>
+                        </g>
+                        <g class="propeller prop-bottom-right">
+                            <line x1="80" y1="80" x2="65" y2="65" stroke="var(--accent)" stroke-width="2"/>
+                            <ellipse cx="80" cy="80" rx="10" ry="2" fill="none" stroke="var(--accent-glow)" stroke-width="1"/>
+                        </g>
+                        <!-- Body arms -->
+                        <line x1="30" y1="30" x2="70" y2="70" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="70" y1="30" x2="30" y2="70" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                        <!-- Core camera -->
+                        <circle cx="50" cy="50" r="6" fill="var(--accent)" />
+                    </svg>
+                </div>
+                <h1 class="loader-title">AL-JOUFEH SCHOOLS</h1>
+                <p class="loader-subtitle">FPV DIVE PREPARATION</p>
+                <div class="loader-bar-bg">
+                    <div id="loader-bar-fill" class="loader-bar-fill"></div>
+                </div>
+                <div id="loader-percentage" class="loader-percentage">0%</div>
+                <div id="loader-status" class="loader-status">Initializing asset cache...</div>
+                
+                <!-- Transition Trigger Button -->
+                <button id="btn-enter-odyssey" class="btn-enter-odyssey" disabled>
+                    Loading Odyssey...
+                </button>
             </div>
-            <h1 class="loader-title">AL-JOUFEH SCHOOLS</h1>
-            <div class="loader-bar-bg">
-                <div id="loader-bar-fill" class="loader-bar-fill"></div>
+            
+            <!-- Right Side: Interactive School Information Directory -->
+            <div class="loader-info-panel glass-panel">
+                <h2 class="loader-panel-title">Schools Directory / دليل المدارس</h2>
+                <p class="loader-panel-desc">Explore the 12 schools of Jabal Al-Joufeh while we prepare your flight experience.</p>
+                
+                <div class="loader-schools-list">
+                    <!-- School 1 -->
+                    <div class="loader-school-card">
+                        <div class="loader-school-header">
+                            <span class="loader-school-num">01</span>
+                            <h3 class="loader-school-title">
+                                <span class="title-en">Bader Secondary Girls</span>
+                                <span class="title-ar">مدرسة بدر الثانوية للبنات</span>
+                            </h3>
+                        </div>
+                        <div class="loader-school-grid">
+                            <div class="loader-school-item"><span class="loader-label">جنس المدرسة</span><span class="loader-val">اناث</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الفترة</span><span class="loader-val">فترة واحدة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">المنطقة</span><span class="loader-val">جبل الجوفة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الحي</span><span class="loader-val">شارع الدوحة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الصفوف</span><span class="loader-val">الرابع - الثاني عشر + BTEC</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- School 2 -->
+                    <div class="loader-school-card">
+                        <div class="loader-school-header">
+                            <span class="loader-school-num">02</span>
+                            <h3 class="loader-school-title">
+                                <span class="title-en">Prince Mohammad Basic Boys</span>
+                                <span class="title-ar">مدرسة الأمير محمد الأساسية للبنين</span>
+                            </h3>
+                        </div>
+                        <div class="loader-school-grid">
+                            <div class="loader-school-item"><span class="loader-label">جنس المدرسة</span><span class="loader-val">ذكور</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الفترة</span><span class="loader-val">فترة واحدة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">المنطقة</span><span class="loader-val">وسط البلد \ وادي السرور</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الحي</span><span class="loader-val">شارع وادي السرور</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الصفوف</span><span class="loader-val">الأول الأساسي - التاسع الأساسي</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- School 3 -->
+                    <div class="loader-school-card">
+                        <div class="loader-school-header">
+                            <span class="loader-school-num">03</span>
+                            <h3 class="loader-school-title">
+                                <span class="title-en">Hafsa Um Al-Mo'mineen Basic</span>
+                                <span class="title-ar">مدرسة حفصة ام المؤمنين الاساسية</span>
+                            </h3>
+                        </div>
+                        <div class="loader-school-grid">
+                            <div class="loader-school-item"><span class="loader-label">جنس المدرسة</span><span class="loader-val">مختلطة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الفترة</span><span class="loader-val">فترة واحدة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">المنطقة</span><span class="loader-val">جبل الجوفة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الحي</span><span class="loader-val">شارع دبي</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الصفوف</span><span class="loader-val">الأول الأساسي - التاسع الأساسي</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- School 4 -->
+                    <div class="loader-school-card">
+                        <div class="loader-school-header">
+                            <span class="loader-school-num">04</span>
+                            <h3 class="loader-school-title">
+                                <span class="title-en">Khadija Bint Khuwaylid Basic</span>
+                                <span class="title-ar">مدرسة خديجة بنت خويلد الاساسية للبنات</span>
+                            </h3>
+                        </div>
+                        <div class="loader-school-grid">
+                            <div class="loader-school-item"><span class="loader-label">جنس المدرسة</span><span class="loader-val">مختلطة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الفترة</span><span class="loader-val">فترة واحدة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">المنطقة</span><span class="loader-val">جبل الجوفة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الحي</span><span class="loader-val">شارع بركة بن ثعلبة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الصفوف</span><span class="loader-val">الأول الأساسي - الثالث الأساسي</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- School 5 -->
+                    <div class="loader-school-card">
+                        <div class="loader-school-header">
+                            <span class="loader-school-num">05</span>
+                            <h3 class="loader-school-title">
+                                <span class="title-en">Musa'b Ben Omeer Basic Boys</span>
+                                <span class="title-ar">مدرسة مصعب بن عمير الاساسية للبنين</span>
+                            </h3>
+                        </div>
+                        <div class="loader-school-grid">
+                            <div class="loader-school-item"><span class="loader-label">جنس المدرسة</span><span class="loader-val">ذكور</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الفترة</span><span class="loader-val">فترة واحدة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">المنطقة</span><span class="loader-val">جبل الجوفة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الحي</span><span class="loader-val">شارع الواقضي</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الصفوف</span><span class="loader-val">الرابع الأساسي - العاشر الأساسي</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- School 6 -->
+                    <div class="loader-school-card">
+                        <div class="loader-school-header">
+                            <span class="loader-school-num">06</span>
+                            <h3 class="loader-school-title">
+                                <span class="title-en">Prince Hasan Secondary Boys</span>
+                                <span class="title-ar">مدرسة الأمير حسن الثانوية للبنين</span>
+                            </h3>
+                        </div>
+                        <div class="loader-school-grid">
+                            <div class="loader-school-item"><span class="loader-label">جنس المدرسة</span><span class="loader-val">ذكور</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الفترة</span><span class="loader-val">فترة واحدة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">المنطقة</span><span class="loader-val">جبل الجوفة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الحي</span><span class="loader-val">حي المدرج</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الصفوف</span><span class="loader-val">الحادي عشر - الثاني عشر الأكاديمي</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- School 7 -->
+                    <div class="loader-school-card">
+                        <div class="loader-school-header">
+                            <span class="loader-school-num">07</span>
+                            <h3 class="loader-school-title">
+                                <span class="title-en">Jabal Al-Joufeh Basic Mixed</span>
+                                <span class="title-ar">مدرسة جبل الجوفة الأساسية المختلطة</span>
+                            </h3>
+                        </div>
+                        <div class="loader-school-grid">
+                            <div class="loader-school-item"><span class="loader-label">جنس المدرسة</span><span class="loader-val">اناث</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الفترة</span><span class="loader-val">فترة واحدة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">المنطقة</span><span class="loader-val">جبل الجوفة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الحي</span><span class="loader-val">شارع علقمة بن طلحة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الصفوف</span><span class="loader-val">الأول الأساسي - السادس الأساسي</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- School 8 -->
+                    <div class="loader-school-card">
+                        <div class="loader-school-header">
+                            <span class="loader-school-num">08</span>
+                            <h3 class="loader-school-title">
+                                <span class="title-en">Ebn Khaldoun Basic Boys</span>
+                                <span class="title-ar">مدرسة ابن خلدون الأساسية للبنين</span>
+                            </h3>
+                        </div>
+                        <div class="loader-school-grid">
+                            <div class="loader-school-item"><span class="loader-label">جنس المدرسة</span><span class="loader-val">ذكور</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الفترة</span><span class="loader-val">فترة واحدة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">المنطقة</span><span class="loader-val">جبل الجوفة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الحي</span><span class="loader-val">شارع الجهاد</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الصفوف</span><span class="loader-val">الأول الأساسي - الرابع الأساسي</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- School 9 -->
+                    <div class="loader-school-card">
+                        <div class="loader-school-header">
+                            <span class="loader-school-num">09</span>
+                            <h3 class="loader-school-title">
+                                <span class="title-en">Al-Khansa Basic Girls</span>
+                                <span class="title-ar">مدرسة الخنساء  الاساسية للبنات</span>
+                            </h3>
+                        </div>
+                        <div class="loader-school-grid">
+                            <div class="loader-school-item"><span class="loader-label">جنس المدرسة</span><span class="loader-val">اناث</span></div>
+                            <div class="loader-school-item"><span class="loader-label">المنطقة</span><span class="loader-val">جبل الجوفة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الصفوف</span><span class="loader-val">الصف الخامس -الصف الثامن</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- School 10 -->
+                    <div class="loader-school-card">
+                        <div class="loader-school-header">
+                            <span class="loader-school-num">10</span>
+                            <h3 class="loader-school-title">
+                                <span class="title-en">Aminah Bint Wahb Basic</span>
+                                <span class="title-ar">مدرسة امنة بنت وهب الأساسية</span>
+                            </h3>
+                        </div>
+                        <div class="loader-school-grid">
+                            <div class="loader-school-item"><span class="loader-label">جنس المدرسة</span><span class="loader-val">مختلطة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الفترة</span><span class="loader-val">فترة واحدة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">المنطقة</span><span class="loader-val">جبل الجوفة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الحي</span><span class="loader-val">شارع الغافقي</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الصفوف</span><span class="loader-val">الأول الأساسي - السادس الأساسي</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- School 11 -->
+                    <div class="loader-school-card">
+                        <div class="loader-school-header">
+                            <span class="loader-school-num">11</span>
+                            <h3 class="loader-school-title">
+                                <span class="title-en">Ja'far Al-Tayyar Secondary</span>
+                                <span class="title-ar">مدرسة جعفر الطيار الثانوية للبنين</span>
+                            </h3>
+                        </div>
+                        <div class="loader-school-grid">
+                            <div class="loader-school-item"><span class="loader-label">جنس المدرسة</span><span class="loader-val">ذكور</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الفترة</span><span class="loader-val">فترة واحدة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">المنطقة</span><span class="loader-val">جبل التاج</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الحي</span><span class="loader-val">شارع حطين</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الصفوف</span><span class="loader-val">الخامس الأساسي - العاشر الأكاديمي</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- School 12 -->
+                    <div class="loader-school-card">
+                        <div class="loader-school-header">
+                            <span class="loader-school-num">12</span>
+                            <h3 class="loader-school-title">
+                                <span class="title-en">Princess Haya Basic Mixed</span>
+                                <span class="title-ar">مدرسة الأميرة هيا الأساسية المختلطة</span>
+                            </h3>
+                        </div>
+                        <div class="loader-school-grid">
+                            <div class="loader-school-item"><span class="loader-label">جنس المدرسة</span><span class="loader-val">اناث</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الفترة</span><span class="loader-val">فترة واحدة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">المنطقة</span><span class="loader-val">جبل الجوفة</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الحي</span><span class="loader-val">شارع الابهري</span></div>
+                            <div class="loader-school-item"><span class="loader-label">الصفوف</span><span class="loader-val">الأول الأساسي - العاشر الأساسي</span></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div id="loader-percentage" class="loader-percentage">0%</div>
-            <div id="loader-status" class="loader-status">Initializing asset cache...</div>
         </div>
     </div>
 
